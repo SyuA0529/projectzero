@@ -24,7 +24,7 @@ public class MessageService {
     public Message registerMessage(MessageRegisterDto messageRegisterDto) {
         Member member = memberRepository.findByNickname(messageRegisterDto.getNickname())
                 .orElseThrow(NoSuchMemberException::new);
-        Message message = messageDtoConverter.messageRegisterDtoToMessage(messageRegisterDto, member.getId());
+        Message message = messageDtoConverter.messageRegisterDtoToMessage(messageRegisterDto, member);
         return messageRepository.save(message);
     }
 

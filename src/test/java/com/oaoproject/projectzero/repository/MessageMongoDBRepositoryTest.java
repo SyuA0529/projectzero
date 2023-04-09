@@ -51,7 +51,7 @@ class MessageMongoDBRepositoryTest {
     void 메세지_등록_조회() {
         // given
         Member member = memberMongoDBRepository.findByNickname("test").get();
-        Message message = createMessage(member.getId(), 12700L, 3700L, "test!");
+        Message message = createMessage(member, 12700L, 3700L, "test!");
 
         // when
         Message saveMessage = messageMongoDBRepository.save(message);
@@ -80,8 +80,8 @@ class MessageMongoDBRepositoryTest {
     void 메세지_사용자아이디_조회() {
         // given
         Member member = memberMongoDBRepository.findByname("test").get();
-        Message message1 = createMessage(member.getId(), 12711L, 3711L, "test1!");
-        Message message2 = createMessage(member.getId(), 12722L, 3722L, "test2!");
+        Message message1 = createMessage(member, 12711L, 3711L, "test1!");
+        Message message2 = createMessage(member, 12722L, 3722L, "test2!");
         messageMongoDBRepository.save(message1);
         messageMongoDBRepository.save(message2);
 
@@ -90,7 +90,7 @@ class MessageMongoDBRepositoryTest {
 
         // then
         for (Message findMessage : findMessages) {
-            assertThat(findMessage.getMemberId()).isEqualTo(member.getId());
+            assertThat(findMessage.getMember()).isEqualTo(member);
             assertThat(findMessage.getMessageBody()).contains("test");
         }
     }
@@ -99,10 +99,10 @@ class MessageMongoDBRepositoryTest {
     void 메세지_위경도_범위내_조회() {
         // given
         Member member = memberMongoDBRepository.findByname("test").get();
-        Message message1 = createMessage(member.getId(), 12710L, 3710L, "test1!");
-        Message message2 = createMessage(member.getId(), 12720L, 3720L, "test2!");
-        Message message3 = createMessage(member.getId(), 12740L, 3720L, "test3!");
-        Message message4 = createMessage(member.getId(), 12720L, 3740L, "test4!");
+        Message message1 = createMessage(member, 12710L, 3710L, "test1!");
+        Message message2 = createMessage(member, 12720L, 3720L, "test2!");
+        Message message3 = createMessage(member, 12740L, 3720L, "test3!");
+        Message message4 = createMessage(member, 12720L, 3740L, "test4!");
         messageMongoDBRepository.save(message1);
         messageMongoDBRepository.save(message2);
         messageMongoDBRepository.save(message3);
@@ -124,10 +124,10 @@ class MessageMongoDBRepositoryTest {
     void 메세지_문자열이포함되는_바디_조회() {
         // given
         Member member = memberMongoDBRepository.findByname("test").get();
-        Message message1 = createMessage(member.getId(), 12710L, 3710L, "test1");
-        Message message2 = createMessage(member.getId(), 12720L, 3720L, "not1");
-        Message message3 = createMessage(member.getId(), 12740L, 3720L, "test2");
-        Message message4 = createMessage(member.getId(), 12720L, 3740L, "not2");
+        Message message1 = createMessage(member, 12710L, 3710L, "test1");
+        Message message2 = createMessage(member, 12720L, 3720L, "not1");
+        Message message3 = createMessage(member, 12740L, 3720L, "test2");
+        Message message4 = createMessage(member, 12720L, 3740L, "not2");
 
         messageMongoDBRepository.save(message1);
         messageMongoDBRepository.save(message2);
@@ -151,7 +151,7 @@ class MessageMongoDBRepositoryTest {
     void 메세지_업데이트() {
         // given
         Member member = memberMongoDBRepository.findByname("test").get();
-        Message message = createMessage(member.getId(), 12710L, 3710L, "test1");
+        Message message = createMessage(member, 12710L, 3710L, "test1");
         Message savedMessage = messageMongoDBRepository.save(message);
 
         // when
@@ -164,7 +164,7 @@ class MessageMongoDBRepositoryTest {
         assertThat(modifyMessage.getMessageBody()).isEqualTo("test2");
         assertThat(modifyMessage.getLatitude()).isEqualTo(message.getLatitude());
         assertThat(modifyMessage.getLongitude()).isEqualTo(message.getLongitude());
-        assertThat(modifyMessage.getMemberId()).isEqualTo(message.getMemberId());
+        assertThat(modifyMessage.getMember()).isEqualTo(message.getMember());
         assertThat(modifyMessage.getContent()).isEqualTo(message.getContent());
     }
 
@@ -175,7 +175,7 @@ class MessageMongoDBRepositoryTest {
     void 메세지_삭제() {
         // given
         Member member = memberMongoDBRepository.findByname("test").get();
-        Message message = createMessage(member.getId(), 12710L, 3710L, "test1");
+        Message message = createMessage(member, 12710L, 3710L, "test1");
         Message savedMessage = messageMongoDBRepository.save(message);
 
         // when
@@ -190,10 +190,10 @@ class MessageMongoDBRepositoryTest {
     void 특정사용자_메세지_전체삭제() {
         // given
         Member member = memberMongoDBRepository.findByname("test").get();
-        Message message1 = createMessage(member.getId(), 12710L, 3710L, "test1");
-        Message message2 = createMessage(member.getId(), 12720L, 3720L, "not1");
-        Message message3 = createMessage(member.getId(), 12740L, 3720L, "test2");
-        Message message4 = createMessage(member.getId(), 12720L, 3740L, "not2");
+        Message message1 = createMessage(member, 12710L, 3710L, "test1");
+        Message message2 = createMessage(member, 12720L, 3720L, "not1");
+        Message message3 = createMessage(member, 12740L, 3720L, "test2");
+        Message message4 = createMessage(member, 12720L, 3740L, "not2");
 
         messageMongoDBRepository.save(message1);
         messageMongoDBRepository.save(message2);
@@ -201,7 +201,7 @@ class MessageMongoDBRepositoryTest {
         messageMongoDBRepository.save(message4);
 
         Member member2 = memberMongoDBRepository.findByname("test2").get();
-        Message message5 = createMessage(member2.getId(), 12710L, 3710L, "test");
+        Message message5 = createMessage(member2, 12710L, 3710L, "test");
         messageMongoDBRepository.save(message5);
 
         // when
@@ -214,9 +214,9 @@ class MessageMongoDBRepositoryTest {
         assertThat(notDeletedMessages.isEmpty()).isFalse();
     }
 
-    private static Message createMessage(String memberId, Long latitude, Long longitude, String messageBody) {
+    private static Message createMessage(Member member, Long latitude, Long longitude, String messageBody) {
         return Message.builder()
-                .memberId(memberId)
+                .member(member)
                 .latitude(latitude)
                 .longitude(longitude)
                 .messageBody(messageBody)

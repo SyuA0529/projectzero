@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -12,15 +13,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Message {
     @Id
     private String id;
-    private String memberId;
+    @DBRef
+    private Member member;
     private Long latitude;
     private Long longitude;
     private String messageBody;
     private String content;
 
     @Builder
-    public Message(String memberId, Long latitude, Long longitude, String messageBody, String content) {
-        this.memberId = memberId;
+    public Message(Member member, Long latitude, Long longitude, String messageBody, String content) {
+        this.member = member;
         this.latitude = latitude;
         this.longitude = longitude;
         this.messageBody = messageBody;

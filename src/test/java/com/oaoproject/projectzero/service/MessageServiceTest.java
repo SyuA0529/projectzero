@@ -63,7 +63,7 @@ class MessageServiceTest {
 
         // then
         messages.stream().forEach(
-                m -> assertThat(m.getMemberId()).isEqualTo(memberRepository.findByNickname("test").get().getId())
+                m -> assertThat(m.getMember().getId()).isEqualTo(memberRepository.findByNickname("test").get().getId())
         );
     }
 
@@ -126,7 +126,7 @@ class MessageServiceTest {
         // then
         Message findMessage = messageService.findById(savedMessage.getId());
         assertThat(findMessage.getMessageBody()).isEqualTo("test2!");
-        assertThat(findMessage.getMemberId()).isEqualTo(savedMessage.getMemberId());
+        assertThat(findMessage.getMember()).isEqualTo(savedMessage.getMember());
         assertThat(findMessage.getLatitude()).isEqualTo(savedMessage.getLatitude());
         assertThat(findMessage.getLongitude()).isEqualTo(savedMessage.getLongitude());
     }
