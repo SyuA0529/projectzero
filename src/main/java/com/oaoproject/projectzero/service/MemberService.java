@@ -23,7 +23,7 @@ public class MemberService {
     }
 
     public String signin(MemberSigninDto signinDto) {
-        Member findMember = memberRepository.findByname(signinDto.getName())
+        Member findMember = memberRepository.findByName(signinDto.getName())
                 .orElseThrow(IdPasswordNotMatchingException::new);
         if(!findMember.matchPassword(signinDto.getPassword()))
             throw new IdPasswordNotMatchingException();

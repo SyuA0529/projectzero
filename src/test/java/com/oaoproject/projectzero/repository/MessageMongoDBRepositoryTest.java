@@ -79,7 +79,7 @@ class MessageMongoDBRepositoryTest {
     @Test
     void 메세지_사용자아이디_조회() {
         // given
-        Member member = memberMongoDBRepository.findByname("test").get();
+        Member member = memberMongoDBRepository.findByName("test").get();
         Message message1 = createMessage(member, 12711L, 3711L, "test1!");
         Message message2 = createMessage(member, 12722L, 3722L, "test2!");
         messageMongoDBRepository.save(message1);
@@ -98,7 +98,7 @@ class MessageMongoDBRepositoryTest {
     @Test
     void 메세지_위경도_범위내_조회() {
         // given
-        Member member = memberMongoDBRepository.findByname("test").get();
+        Member member = memberMongoDBRepository.findByName("test").get();
         Message message1 = createMessage(member, 12710L, 3710L, "test1!");
         Message message2 = createMessage(member, 12720L, 3720L, "test2!");
         Message message3 = createMessage(member, 12740L, 3720L, "test3!");
@@ -123,7 +123,7 @@ class MessageMongoDBRepositoryTest {
     @Test
     void 메세지_문자열이포함되는_바디_조회() {
         // given
-        Member member = memberMongoDBRepository.findByname("test").get();
+        Member member = memberMongoDBRepository.findByName("test").get();
         Message message1 = createMessage(member, 12710L, 3710L, "test1");
         Message message2 = createMessage(member, 12720L, 3720L, "not1");
         Message message3 = createMessage(member, 12740L, 3720L, "test2");
@@ -150,7 +150,7 @@ class MessageMongoDBRepositoryTest {
     @Test
     void 메세지_업데이트() {
         // given
-        Member member = memberMongoDBRepository.findByname("test").get();
+        Member member = memberMongoDBRepository.findByName("test").get();
         Message message = createMessage(member, 12710L, 3710L, "test1");
         Message savedMessage = messageMongoDBRepository.save(message);
 
@@ -174,7 +174,7 @@ class MessageMongoDBRepositoryTest {
     @Test
     void 메세지_삭제() {
         // given
-        Member member = memberMongoDBRepository.findByname("test").get();
+        Member member = memberMongoDBRepository.findByName("test").get();
         Message message = createMessage(member, 12710L, 3710L, "test1");
         Message savedMessage = messageMongoDBRepository.save(message);
 
@@ -189,7 +189,7 @@ class MessageMongoDBRepositoryTest {
     @Test
     void 특정사용자_메세지_전체삭제() {
         // given
-        Member member = memberMongoDBRepository.findByname("test").get();
+        Member member = memberMongoDBRepository.findByName("test").get();
         Message message1 = createMessage(member, 12710L, 3710L, "test1");
         Message message2 = createMessage(member, 12720L, 3720L, "not1");
         Message message3 = createMessage(member, 12740L, 3720L, "test2");
@@ -200,7 +200,7 @@ class MessageMongoDBRepositoryTest {
         messageMongoDBRepository.save(message3);
         messageMongoDBRepository.save(message4);
 
-        Member member2 = memberMongoDBRepository.findByname("test2").get();
+        Member member2 = memberMongoDBRepository.findByName("test2").get();
         Message message5 = createMessage(member2, 12710L, 3710L, "test");
         messageMongoDBRepository.save(message5);
 
